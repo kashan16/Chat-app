@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: flashchat-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - flashchat-net
+
+  server:
+    build: ./server
+    container_name: flashchat-server
+    restart: unless-stopped
+    environment:
+      PORT: 5000
+      MONGODB_URI: mongodb://mongo:27017/chatapp
+      CLIENT_URL: http://localhost
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    networks:
+      - flashchat-net
+
+  client:
+    build: ./client
+    container_name: flashchat-client
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    networks:
+      - flashchat-net
+
+volumes:
+  mongo_data:
+
+networks:
+  flashchat-net:
+    driver: bridge
