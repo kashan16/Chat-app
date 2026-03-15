@@ -1,4 +1,4 @@
-# ⚡ FlashChat — MERN Stack Real-Time Chat App
+# FlashChat — MERN Stack Real-Time Chat App
 
 A full-featured real-time chat application built with MongoDB, Express, React, and Node.js, powered by Socket.io for instant messaging.
 
